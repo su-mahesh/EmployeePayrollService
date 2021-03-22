@@ -1,13 +1,15 @@
 ﻿using BusinessLayer.Interfaces;
 using CommonLayer.ResponseModel;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
 using System;
 using System.Collections.Generic;
+
 
 namespace EmployeePayrollWebApp.Controllers
 {
     [ApiController]
+    [EnableCors("AllowOrigin")]
     [Route("[controller]")]
     public class EmployeePayrollController : ControllerBase
     {
@@ -17,11 +19,12 @@ namespace EmployeePayrollWebApp.Controllers
         {
             this.employeeBL = employeeBL;
         }
+        [EnableCors]
         [HttpGet]
         public ActionResult GetAllEployeesData()
         {
             employees = employeeBL.GetAllEployeesData();
-            return Ok(new { Message = "Successful", data = employees });
+            return Ok(new { employees });
         }
 
         [HttpGet("{ID}")]
@@ -42,6 +45,8 @@ namespace EmployeePayrollWebApp.Controllers
                 return this.BadRequest(new { success = false, exception.Message });
             }            
         }
+
+        // [EnableCors("AnotherPolicy")]
 
         [HttpPost("Register")]
         public ActionResult RegisterEmployeeData(EmployeeModel employee)

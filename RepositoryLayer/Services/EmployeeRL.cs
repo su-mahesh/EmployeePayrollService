@@ -70,6 +70,7 @@ namespace RepositoryLayer.Services
                     employee.StartDate = rd["StartDate"] == DBNull.Value ? default : (DateTime)rd["StartDate"];
                     employee.Notes = rd["Notes"] == DBNull.Value ? default : (string)rd["Notes"];
                     employee.Department = rd["DepartmentNames"] == DBNull.Value ? default : ((string)rd["DepartmentNames"]).Split(",");
+                    employee.ProfileImage = rd["ProfileImage"] == DBNull.Value ? default : (string)rd["ProfileImage"];
                     EmployeeModelList.Add(employee);
                 }
                 rd.Close();
@@ -102,6 +103,7 @@ namespace RepositoryLayer.Services
                 {
                     CommandType = CommandType.StoredProcedure
                 };
+                cmd.Parameters.AddWithValue("@ProfileImage", employee.ProfileImage);
                 cmd.Parameters.AddWithValue("@EmpName", employee.EmployeeName);
                 cmd.Parameters.AddWithValue("@Gender", employee.Gender);
                 cmd.Parameters.AddWithValue("@StartDate", employee.StartDate);
